@@ -13,6 +13,7 @@ class Patient(models.Model):
     district = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=6)
+    otp = models.CharField(max_length=4)
 
     def __str__(self):
         return self.name
@@ -21,7 +22,8 @@ class Lab(models.Model):
     lab_id = models.CharField(primary_key=True, max_length=12)
     lab_name = models.CharField(max_length=100)
     lab_address = models.CharField(max_length=200)  
-    lab_phone = models.CharField(max_length=15)     
+    lab_phone = models.CharField(max_length=15) 
+    lab_password = models.CharField(max_length=24)    
 
     def __str__(self):
         return self.lab_name
@@ -42,6 +44,8 @@ class Doctor(models.Model):
     doctor_name = models.CharField(max_length=100)
     degree = models.CharField(max_length=100)
     doctor_number = models.CharField(max_length=15)
+    doctor_password = models.CharField(max_length=24)    
+
 
     def __str__(self):
         return self.doctor_name
