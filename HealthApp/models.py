@@ -23,7 +23,7 @@ class Lab(models.Model):
     lab_name = models.CharField(max_length=100)
     lab_address = models.CharField(max_length=200)  
     lab_phone = models.CharField(max_length=15) 
-    lab_password = models.CharField(max_length=24, null=True, blank=True)    
+    lab_password = models.CharField(max_length=50, null=True, blank=True)    
 
     def __str__(self):
         return self.lab_name
@@ -44,7 +44,7 @@ class Doctor(models.Model):
     doctor_name = models.CharField(max_length=100)
     degree = models.CharField(max_length=100)
     doctor_number = models.CharField(max_length=15)
-    doctor_password = models.CharField(max_length=24, null=True, blank=True)    
+    doctor_password = models.CharField(max_length=50, null=True, blank=True)    
 
 
     def __str__(self):
