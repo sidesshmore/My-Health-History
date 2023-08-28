@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 class PatientSerializer(serializers.ModelSerializer):
-    uid = serializers.CharField(max_length=12, unique=True, allow_null=True, allow_blank=True)
+    uid = serializers.CharField(max_length=12, allow_null=True, allow_blank=True)
     name = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
     dob = serializers.DateField(allow_null=True)
     gender = serializers.CharField(max_length=1, allow_null=True, allow_blank=True)
@@ -18,7 +18,7 @@ class PatientSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class LabSerializer(serializers.ModelSerializer):
-    lab_id = serializers.CharField(primary_key=True, max_length=12, allow_null=True, allow_blank=True)
+    lab_id = serializers.CharField(max_length=12, allow_null=True, allow_blank=True)
     lab_name = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
     lab_address = serializers.CharField(max_length=200, allow_null=True, allow_blank=True)
     lab_phone = serializers.CharField(max_length=15, allow_null=True, allow_blank=True)
@@ -28,7 +28,7 @@ class LabSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DoctorSerializer(serializers.ModelSerializer):
-    doctor_id = serializers.CharField(primary_key=True, max_length=9, allow_null=True, allow_blank=True)
+    doctor_id = serializers.CharField(max_length=9, allow_null=True, allow_blank=True)
     doctor_name = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
     degree = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
     doctor_number = serializers.CharField(max_length=15, allow_null=True, allow_blank=True)
@@ -48,3 +48,14 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reports
         fields = '__all__'
+
+
+class ReportDetailsSerializer(serializers.ModelSerializer):
+    lab_name = serializers.SerializerMethodField()  
+
+    class Meta:
+        model = Reports
+        fields = ['date', 'test_name', 'lab', 'lab_name'] 
+
+    def get_lab_name(self, obj):
+        return obj.lab.lab_name 
