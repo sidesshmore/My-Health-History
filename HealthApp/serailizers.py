@@ -52,10 +52,14 @@ class ReportSerializer(serializers.ModelSerializer):
 
 class ReportDetailsSerializer(serializers.ModelSerializer):
     lab_name = serializers.SerializerMethodField()  
+    patient_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Reports
-        fields = ['date', 'test_name', 'lab', 'lab_name'] 
+        fields = ['date', 'test_name', 'lab', 'lab_name', 'patient_name'] 
 
     def get_lab_name(self, obj):
-        return obj.lab.lab_name 
+        return obj.lab.lab_name
+
+    def get_patient_name(self, obj):
+        return obj.patient.name

@@ -34,7 +34,7 @@ class Reports(models.Model):
     lab = models.ForeignKey(Lab, on_delete=models.CASCADE)
     date = models.DateField()
     test_name = models.CharField(max_length=100)
-    # report_pdf = models.FileField(upload_to='reports/')  
+    report_pdf = models.URLField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return f"Report {self.report_no} for {self.patient.name} from Lab {self.lab.lab_name}"
