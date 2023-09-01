@@ -63,3 +63,12 @@ class ReportDetailsSerializer(serializers.ModelSerializer):
 
     def get_patient_name(self, obj):
         return obj.patient.name
+    
+
+class PrescriptionSerializer(serializers.ModelSerializer):
+    prescription_link = serializers.URLField(max_length=500, allow_null=True, allow_blank=True)
+    test_required = serializers.CharField(allow_null=True, allow_blank=True)
+
+    class Meta:
+        model = Prescription
+        fields = '__all__'

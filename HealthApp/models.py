@@ -49,3 +49,13 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.doctor_name
+    
+class Prescription(models.Model):
+    prescription_id = models.AutoField(primary_key=True)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    prescription_link = models.URLField(max_length=500)
+    test_required = models.TextField(blank=True)  
+
+    def __str__(self):
+        return f"Prescription {self.prescription_id} for {self.patient.name} by Dr. {self.doctor.doctor_name}"
