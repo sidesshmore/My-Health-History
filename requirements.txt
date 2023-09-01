@@ -3,3 +3,4 @@ gunicorn
 psycopg2
 environ
 dj-database-url
+django-cors-headers
