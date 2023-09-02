@@ -69,3 +69,17 @@ class PrescriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prescription
         fields = '__all__'
+
+class CreateReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reports
+        fields = '__all__'
+
+
+class UpdateReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reports
+        fields = ['test_name', 'report_pdf']
+
+class DeleteReportSerializer(serializers.Serializer):
+    report_no = serializers.IntegerField()

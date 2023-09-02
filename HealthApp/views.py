@@ -84,3 +84,19 @@ class ReportSearchFilterAPI(generics.ListAPIView):
         return queryset
 
 
+from rest_framework.generics import CreateAPIView
+
+class CreateReportAPI(CreateAPIView):
+    serializer_class = CreateReportSerializer
+
+from rest_framework.generics import UpdateAPIView, DestroyAPIView
+
+class UpdateReportAPI(UpdateAPIView):
+    serializer_class = UpdateReportSerializer
+    queryset = Reports.objects.all()
+    lookup_field = 'report_no'
+
+class DeleteReportAPI(DestroyAPIView):
+    serializer_class = DeleteReportSerializer
+    queryset = Reports.objects.all()
+    lookup_field = 'report_no'

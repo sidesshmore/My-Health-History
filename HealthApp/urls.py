@@ -11,6 +11,15 @@ urlpatterns = [
 
     # API endpoint for searching and filtering reports
     path('api/reports/search/', ReportSearchFilterAPI.as_view(), name='report-search'),
+
+    # API endpoint for labs to create reports
+    path('api/lab/<str:lab_id>/reports/create/', CreateReportAPI.as_view(), name='create-report'),
+
+    # API endpoint for labs to update reports
+    path('api/lab/<str:lab_id>/reports/update/<int:report_no>/', UpdateReportAPI.as_view(), name='update-report'),
+
+    # API endpoint for labs to delete reports
+    path('api/lab/<str:lab_id>/reports/delete/<int:report_no>/', DeleteReportAPI.as_view(), name='delete-report'),
 ]
 
 
