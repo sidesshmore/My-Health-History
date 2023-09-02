@@ -52,7 +52,6 @@ class ReportSerializer(serializers.ModelSerializer):
 
 class ReportDetailsSerializer(serializers.ModelSerializer):
     lab_name = serializers.SerializerMethodField()  
-    patient_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Reports
