@@ -60,8 +60,6 @@ class ReportDetailsSerializer(serializers.ModelSerializer):
     def get_lab_name(self, obj):
         return obj.lab.lab_name
 
-    def get_patient_name(self, obj):
-        return obj.patient.name
     
 
 class PrescriptionSerializer(serializers.ModelSerializer):

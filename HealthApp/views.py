@@ -9,15 +9,15 @@ from .serailizers import *
 from django.db.models import F
 
 class PatientReportAPI(APIView):
-    def get_patient(self, uid):
+    def get_patient(self, phone):
         try:
-            return Patient.objects.get(uid=uid)
+            return Patient.objects.get(phone=phone)
         except Patient.DoesNotExist:
             raise Http404("Patient does not exist")
 
-    def get(self, request, uid):
+    def get(self, request, phone):
         try:
-            patient = self.get_patient(uid)
+            patient = self.get_patient(phone)
             
             # Fetch the reports, ordering them by date in descending order (latest first)
             reports = Reports.objects.filter(patient=patient).order_by('-date')
@@ -26,13 +26,14 @@ class PatientReportAPI(APIView):
             report_details = ReportDetailsSerializer(reports, many=True).data
             
             response_data = {
-                "uid": patient.uid,
+                "phone": patient.phone,
                 "name": patient.name,
                 "reports": report_details,
             }
             return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LabReportsAPI(generics.ListAPIView):
     serializer_class = ReportDetailsSerializer
