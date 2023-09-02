@@ -72,12 +72,26 @@ class PrescriptionSerializer(serializers.ModelSerializer):
 
 
 class CreateReportSerializer(serializers.ModelSerializer):
-    # Add a field to accept the patient's phone number
-    patient_phone = serializers.CharField(max_length=10)
+    patient_phone = serializers.CharField(max_length=10, write_only=True)  # Use write_only to accept but not display in responses
 
     class Meta:
         model = Reports
         fields = ['patient_phone', 'lab', 'date', 'test_name', 'report_pdf']
+
+    def create(self, validated_data):
+        # Extract and remove the patient_phone from the validated_data
+        patient_phone = validated_data.pop('patient_phone')
+
+        try:
+            # Find the patient by phone number
+            patient = Patient.objects.get(phone=patient_phone)
+        except Patient.DoesNotExist:
+            raise serializers.ValidationError("Patient not found")
+
+        # Create a new report instance with the patient reference
+        report = Reports.objects.create(patient=patient, **validated_data)
+        return report
+
 
 
 
