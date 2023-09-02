@@ -72,10 +72,13 @@ class PrescriptionSerializer(serializers.ModelSerializer):
 
 
 class CreateReportSerializer(serializers.ModelSerializer):
+    # Add a field to accept the patient's phone number
+    patient_phone = serializers.CharField(max_length=10)
 
     class Meta:
         model = Reports
-        fields = ['patient', 'lab', 'date', 'test_name', 'report_pdf']
+        fields = ['patient_phone', 'lab', 'date', 'test_name', 'report_pdf']
+
 
 
 
