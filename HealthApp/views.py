@@ -103,14 +103,13 @@ class CreateReportAPI(CreateAPIView):
         except Patient.DoesNotExist:
             return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)
 
-        # Add the patient instance to the request data
-        request.data['patient'] = patient.pk
-
+        # Create a new report instance
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(patient=patient)  # Associate the patient with the report
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 
 
