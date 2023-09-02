@@ -70,10 +70,15 @@ class PrescriptionSerializer(serializers.ModelSerializer):
         model = Prescription
         fields = '__all__'
 
+
 class CreateReportSerializer(serializers.ModelSerializer):
+   
+    patient_phone = serializers.CharField(max_length=10)
+
     class Meta:
         model = Reports
-        fields = '__all__'
+        fields = ['patient_phone', 'lab', 'date', 'test_name', 'report_pdf']
+
 
 
 class UpdateReportSerializer(serializers.ModelSerializer):

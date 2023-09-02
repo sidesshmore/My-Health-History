@@ -84,10 +84,36 @@ class ReportSearchFilterAPI(generics.ListAPIView):
         return queryset
 
 
+
 from rest_framework.generics import CreateAPIView
+from rest_framework import status
+from rest_framework.response import Response
+from django.http import Http404
 
 class CreateReportAPI(CreateAPIView):
     serializer_class = CreateReportSerializer
+
+    def create(self, request, lab_id):
+        # Extract the patient's phone number from the request data
+        patient_phone = self.request.data.get('patient_phone')
+        
+        try:
+            # Find the patient by their phone number
+            patient = Patient.objects.get(phone=patient_phone)
+        except Patient.DoesNotExist:
+            return Response({"error": "Patient not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # Add the patient instance to the request data
+        request.data['patient'] = patient.pk
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
 
 from rest_framework.generics import UpdateAPIView, DestroyAPIView
 
