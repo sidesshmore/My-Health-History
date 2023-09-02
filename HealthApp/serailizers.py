@@ -43,7 +43,7 @@ class ReportSerializer(serializers.ModelSerializer):
     lab = serializers.PrimaryKeyRelatedField(queryset=Lab.objects.all())
     date = serializers.DateField()
     test_name = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
-    # report_pdf = serializers.FileField(allow_null=True)
+    report_pdf = models.URLField(max_length=500, null=True, blank=True)
 
     class Meta:
         model = Reports
@@ -56,7 +56,7 @@ class ReportDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reports
-        fields = ['date', 'test_name', 'lab', 'lab_name', 'patient_name'] 
+        fields = ['date', 'test_name', 'lab', 'lab_name', 'report_pdf'] 
 
     def get_lab_name(self, obj):
         return obj.lab.lab_name
