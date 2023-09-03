@@ -8,12 +8,19 @@ from .serailizers import *
 
 from django.db.models import F
 
+from datetime import date
+
 class PatientReportAPI(APIView):
     def get_patient(self, phone):
         try:
             return Patient.objects.get(phone=phone)
         except Patient.DoesNotExist:
             raise Http404("Patient does not exist")
+
+    def calculate_age(self, dob):
+        today = date.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        return age
 
     def get(self, request, phone):
         try:
@@ -25,14 +32,20 @@ class PatientReportAPI(APIView):
             # Serialize the reports with the updated serializer
             report_details = ReportDetailsSerializer(reports, many=True).data
             
+            # Calculate the patient's age
+            age = self.calculate_age(patient.dob)
+            
             response_data = {
                 "phone": patient.phone,
                 "name": patient.name,
+                "gender": patient.gender,
+                "age": age,  # Include the calculated age in years
                 "reports": report_details,
             }
             return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class LabReportsAPI(generics.ListAPIView):
